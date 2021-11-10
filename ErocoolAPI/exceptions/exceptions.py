@@ -1,0 +1,2 @@
+class UnsupportedURLError(Exception):
+    pass
