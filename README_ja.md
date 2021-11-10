@@ -49,6 +49,15 @@ erocool.download()
 | end | 途中のページまでダウンロードしたい場合に、ページの終了番号を指定する。 | コンテンツの最後のページ |
 
 
+### async_download
+**<span style="color: red; ">注意: テスト段階の機能です。</span>**  
+
+全ての引数は [download()](#download) 関数と同様です。
+
+```python
+erocool.async_download()
+```
+
 ### search
 キーワードで検索を行います。
 classmethodのためインスタンス化をしなくても使用可能です。サイト毎に実装されていない場合があるので、個別にモジュールをインポートしてください。

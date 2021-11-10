@@ -49,6 +49,14 @@ The following is a list of options that can be given to this method.
 | start | Specify this option if you want to download from an arbitrary page. | 1 |
 | end | The specified number of pages will be used as the last page. | Number of content pages. |
 
+### async_download
+**<span style="color: red; ">Note: This is in the prototype stage.</span>**  
+
+All arguments are the same as in the [download()](#download) method. Executes the download process asynchronously.
+
+```python
+erocool.async_download()
+```
 
 ### search
 Perform a search using keywords.  
