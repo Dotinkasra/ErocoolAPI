@@ -239,13 +239,14 @@ class Scraper:
             #if not item.has_attr('data-src'):
             #    continue
             #src_link = item.attrs['data-src']
-            # 保存用のファイル名を生成する
-            do_download_img.append(item)
 
             if i + 1 < start:
                 continue
             if i + 1 > end:
                 break
+            do_download_img.append(item)
+
+            
         loop.run_until_complete(self.handler(loop, do_download_img))
         loop.close()
 
