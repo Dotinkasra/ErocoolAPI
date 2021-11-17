@@ -104,3 +104,21 @@ The return value is the [Result](#Result) class.
 | pagination  | int | Number of pages of search results.  |
 | results  | list | Two-dimensional array. [{title,url},...]  |
 
+## Commandline
+You can use this API from the command line.
+This requires that you have Python 3.9 or higher installed on your machine, with the modules described in the 'requirements.txt' section of this repository imported.
+If you are using Venv, you can use it without any problem, but you need to activate it in a shell beforehand.
+
+```bash
+erocool 'https://ja.erocool.com/detail/xxxxxxx.html'
+```
+
+You can specify the page number to be saved, the path of the directory to be saved, and the directory name.
+
+```bash
+erocool 'https://ja.erocool.com/detail/xxxxxxx.html' -s 5 -e 10 -o ~/Downloads/Mangas -n 'xxxxx'
+```
+
+More information can be found with the -h option.
+
+

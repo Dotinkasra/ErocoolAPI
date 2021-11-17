@@ -103,5 +103,20 @@ Erocool.ranking('daily')
 | pagination  | int | 検索結果のページ数です。  |
 | results  | list | 二次元配列。 [{title,url},...]  |
 
+## コマンドライン
+コマンドラインからAPIを使用することができます。
+実行する場合はPython 3.9以上がインストールされており、‘requirements.txt’に記述されたモジュールをインポートしておく必要があります。
+Venvを使用している場合は、予めシェル上でアクティベートが必要です。
 
+```bash
+erocool 'https://ja.erocool.com/detail/xxxxxxx.html'
+```
+
+開始番号、終了番号、保存先、ディレクトリ名が指定できます。
+
+```bash
+erocool 'https://ja.erocool.com/detail/xxxxxxx.html' -s 5 -e 10 -o ~/Downloads/Mangas -n 'xxxxx'
+```
+
+オプションについての詳しい説明は -h オプションを参照してください。
 
