@@ -1,6 +1,7 @@
 # Erocool Unofficial API
 
 ## How to use
+・[日本語](https://github.com/Dotinkasra/ErocoolAPI/blob/main/README_ja.md)
 ### set
 It takes the URL of the content as a parameter and sets it to the instance.
 
