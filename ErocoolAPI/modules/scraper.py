@@ -139,7 +139,7 @@ class Scraper:
         """
         return self._data
 
-    def download(self, path: str = None, directory_name: str = None, start: int = 1, end: int = None):
+    def download(self, absolute_path: str = None, directory_name: str = None, start: int = 1, end: int = None):
         """Download the manga set for this instance.
 
         Args:
@@ -151,7 +151,7 @@ class Scraper:
         if self.bs == None:
             return 
 
-        dir_path = path
+        dir_path = absolute_path
         dir_name = directory_name
 
         if dir_path == None:
@@ -197,7 +197,7 @@ class Scraper:
             except Exception as e:
                 print(e)
 
-    def async_download(self, path: str = None, directory_name: str = None, start: int = 1, end: int = None):
+    def async_download(self, absolute_path: str = None, directory_name: str = None, start: int = 1, end: int = None):
         """Download the manga set for this instance.
 
         Args:
@@ -210,7 +210,7 @@ class Scraper:
             return 
         loop = asyncio.new_event_loop()
 
-        dir_path = path
+        dir_path = absolute_path
         dir_name = directory_name
 
         if dir_path == None:

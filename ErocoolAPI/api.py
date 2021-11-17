@@ -4,8 +4,6 @@ from ErocoolAPI.modules.nyahentai import NyaHentai
 from ErocoolAPI.exceptions.exceptions import UnsupportedURLError
 
 import re
-import sys
-
 
 class ErocoolAPI:
     @classmethod
