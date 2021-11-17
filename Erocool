@@ -1,0 +1,20 @@
+#!/usr/bin/env python
+from ErocoolAPI.api import ErocoolAPI
+import argparse
+
+parser = argparse.ArgumentParser(description='ErocoolAPI Commandline tool')
+
+parser.add_argument('url', help = 'URL of the contents')
+parser.add_argument('-s', '--start', type = int, help = 'Specify the first page number to start downloading.')
+parser.add_argument('-e', '--end', type = int, help='Specify the last page number to finish downloading.')
+parser.add_argument('-o', '--output', help='Output directory')
+parser.add_argument('-n', '--name', help= 'Directory name')
+
+args = parser.parse_args()
+
+def do_api():
+    site = ErocoolAPI.set(args.url)
+    start = 1 if args.start is None else args.start
+    site.async_download(absolute_path = args.output, directory_name = args.name, start = start, end = args.end)
+
+do_api()
