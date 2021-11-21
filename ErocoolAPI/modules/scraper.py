@@ -6,6 +6,7 @@ import urllib.error
 import re
 import random
 import asyncio
+import tqdm
 from pprint import pprint
 from typing import Pattern
 from bs4 import BeautifulSoup
@@ -30,7 +31,20 @@ class Scraper:
             "User-Agent": self.user_agent,
         }
 
-        self._data = dict.fromkeys(['ja_title', 'en_title', 'parodies', 'tags', 'artists', 'groups', 'lang', 'total_pages', 'upload_date', 'thumbnail', 'url'], '')
+        self._data = dict.fromkeys(
+            [
+                'ja_title',
+                'en_title',
+                'parodies',
+                'tags',
+                'artists',
+                'groups', 
+                'lang', 
+                'total_pages', 
+                'upload_date', 
+                'thumbnail', 
+                'url'
+            ], '')
         
 
     @property
@@ -158,7 +172,7 @@ class Scraper:
             dir_path = './'
 
         if dir_name == None:
-            dir_name = self.ja_title if not self.ja_title == None else str(random.randrange(10**6, 10**7))
+            dir_name = self.ja_title if not (self.ja_title == None or self.ja_title == '') else str(random.randrange(10**6, 10**7))
 
         dir_path = os.path.join(dir_path, dir_name)
 
@@ -213,11 +227,11 @@ class Scraper:
         dir_path = absolute_path
         dir_name = directory_name
 
-        if dir_path == None:
+        if dir_path == None or dir_path == '':
             dir_path = './'
 
-        if dir_name == None:
-            dir_name = self.ja_title if not self.ja_title == None else str(random.randrange(10**6, 10**7))
+        if dir_name == None or dir_name == '':
+            dir_name = self.ja_title if not (self.ja_title == None or self.ja_title == '') else str(random.randrange(10**6, 10**7))
 
         self.dir_path = os.path.join(dir_path, dir_name)
 
@@ -257,7 +271,9 @@ class Scraper:
             async with asyncio.Semaphore(3):
                 return await loop.run_in_executor(None, self.__async_downloader , i)
         tasks = [exec(i) for i in image_list]
-        return await asyncio.gather(*tasks)
+        #return await asyncio.gather(*tasks)
+        for t in tqdm.tqdm(asyncio.as_completed(tasks), desc="Downloading...", total=len(image_list)):
+            await t
 
     def __async_downloader(self, download_url: str):
         file_name = "hcooldl_" + re.findall('http.://.*/(.*jpg|.*png)', download_url)[0]
