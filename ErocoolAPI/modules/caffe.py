@@ -52,7 +52,7 @@ class Caffe(Scraper):
         Args:
             url (str): URL of the manga page.
         """
-        self.check_url(r'https://eromangacafe.com/.*', url)
+        self.check_url(r'https://eromanga.cafe.com/.*', url)
         self.bs = super()._Scraper__create_bs(url)
         if self.bs == None:
             return None

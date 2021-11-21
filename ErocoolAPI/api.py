@@ -6,6 +6,7 @@ from ErocoolAPI.exceptions.exceptions import UnsupportedURLError
 import re
 
 class ErocoolAPI:
+
     @classmethod
     def set(self, url: str):
         site = self.get_site(self, url)
@@ -16,7 +17,7 @@ class ErocoolAPI:
     def get_site(self, url: str):
         support_sites = {
             'Erocool' : r'https://ja\.erocool.*\.com/.*',
-            'Caffe' : r'https://eromangacafe\.com/.*',
+            'Caffe' : r'https://eromanga.cafe\.com/.*',
             'NyaHentai' : r'https://ja.nyahentai.*.com/.*'
         }
         try:
