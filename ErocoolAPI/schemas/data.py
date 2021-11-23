@@ -1,18 +1,20 @@
 import random
-
+from dataclasses import dataclass
+from dataclasses import field
+@dataclass
 class Data():
-    _ja_title: str
-    _en_title: str
-    _upload_date: str
-    _artists: list[str]
-    _lang: str
-    _groups: list[str]
-    _parodies: list[str]
-    _tags: list[str]
-    _total_pages: int
-    _thumbnail: str
-    _url: str
-    _image_list: list[str]
+    _ja_title: str = str(random.randrange(10**6, 10**7))
+    _en_title: str = ''
+    _upload_date: str = ''
+    _artists: list[str] = field(default_factory=list)
+    _lang: str = ''
+    _groups: list[str] = field(default_factory=list[str])
+    _parodies: list[str] = field(default_factory=list[str])
+    _tags: list[str] = field(default_factory=list[str])
+    _total_pages: int = 0
+    _thumbnail: str = ''
+    _url: str = ''
+    _image_list: list[str] = field(default_factory=list[str])
     
     @property
     def ja_title(self) -> str:
@@ -21,7 +23,7 @@ class Data():
     @ja_title.setter
     def ja_title(self, value):
         if value == None or value == '':
-            self._ja_title = str(random.randrange(10**6, 10**7))
+            return
         self._ja_title = value
 
     @property
