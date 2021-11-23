@@ -18,7 +18,7 @@ class ErocoolAPI:
         support_sites = {
             'Erocool' : r'https://ja\.erocool.*\.com/.*',
             'Caffe' : r'https://eromanga.cafe\.com/.*',
-            'NyaHentai' : r'https://ja.nyahentai.*.com/.*'
+            'NyaHentai' : r'https://ja.nyahentai.*.(com|me)/.*'
         }
         try:
             for site in support_sites:
