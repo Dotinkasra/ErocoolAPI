@@ -1,5 +1,6 @@
 from ErocoolAPI.modules.scraper import Scraper
-from ErocoolAPI.schemas.Result import Result
+from ErocoolAPI.schemas.result import Result
+from ErocoolAPI.schemas.data import Data
 
 import urllib.parse 
 import urllib.request
