@@ -81,12 +81,29 @@ class Scraper:
     def set(self, url: str):
        pass
     
-    def info(self) -> Data:
+    def info(self, display: bool = False) -> Data:
         """Get the information of the manga set in this instance.
 
+        Args:
+            display (bool, optional): If True, the information of the manga content set in the instance will be output to the standard output.
         Returns:
             dict[str]: Information about the manga.
         """
+        if display:
+            text = '【Infomation】\n【LANGUAGE】{lang}\n【URL】{url}\n【JA_TITLE】{ja_title}\n【EN_TITLE】{en_title}\n【UPLOAD_DATE】{upload_date}\n【ARTISTS】{artists}\n【GROUPS】{groups}\n【PARODIES】{parodies}\n【TAGS】{tags}\n【PAGE_COUNT】{total_pages}\n【THUMBNAIL】{thumbnail}\n'.format(
+                lang=self._data.lang,
+                url=self._data.url,
+                ja_title=self._data.ja_title,
+                en_title=self._data.en_title,
+                upload_date=self._data.upload_date,
+                artists=self._data.artists,
+                groups=','.join(self._data.tags),
+                parodies=','.join(self._data.parodies),
+                tags=','.join(self._data.tags),
+                total_pages=self._data.total_pages,
+                thumbnail=self._data.thumbnail
+            )
+            print(text)
         return self._data
 
     def get_image_url(self, url: str) -> str:
