@@ -9,7 +9,7 @@ import urllib.error
 import re
 import random
 import asyncio
-#import tqdm
+import tqdm
 from pprint import pprint
 from typing import Pattern
 from bs4 import BeautifulSoup
@@ -92,6 +92,9 @@ class Scraper:
         """
         return self._data
 
+    def get_image_url(self, url: str) -> str:
+        re.findall('http.://.*/(.*jpg|.*png)', url)[0]
+
     def download(self, absolute_path: str = None, directory_name: str = None, start: int = 1, end: int = None):
         """Download the manga set for this instance.
 
@@ -132,7 +135,7 @@ class Scraper:
             #    continue
             #src_link = item.attrs['data-src']
             # 保存用のファイル名を生成する
-            file_name = "hcooldl_{:0>3}_".format(str(i + 1)) + re.findall('http.://.*/(.*jpg|.*png)', item)[0]
+            file_name = "hcooldl_{:0>3}_".format(str(i + 1)) + self.get_image_url(item)
             
             if i + 1 < start:
                 continue
