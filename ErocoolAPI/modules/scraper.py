@@ -14,9 +14,6 @@ from pprint import pprint
 from typing import Pattern
 from bs4 import BeautifulSoup
 from abc import abstractmethod
-#import traceback
-#import functools
-#from abc import ABCMeta, abstractmethod, abstractclassmethod
 
 class Scraper:
     ssl._create_default_https_context = ssl._create_unverified_context
