@@ -18,21 +18,11 @@ Get the content information set in the instance using the set() method.
 erocool.info()
 ```
 
-The values that can be obtained are as follows
- - ja_title
- - en_title
- - parodies
- - tags
- - artists
- - groups
- - lang
- - total_pages
- - upload_date
- - thumbnail
- - url
+[Data](#Data) class will be returned.
 
-The return value is a dict.  
-These values can also be obtained on their own through properties.
+| Option | Param | Type | Default | Description | 
+| ------------- | ------------- | ------------- | ------------- | ------------- |
+| ✅ | display  | bool | False | Prints information about the content set in the instance.  |  
 
 ### download
 Download the contents configured for the instance.  
@@ -43,12 +33,12 @@ erocool.download()
 ```
 
 The following is a list of options that can be given to this method.  
-| Param | Description | Default | 
-| ------------- | ------------- | ------------- |
-| absolute_path  | Specify the destination of the content by absolute path.  | None | 
-| directory_name  | Rename the directory where the content will be saved.  | Title name of the content. |
-| start | Specify this option if you want to download from an arbitrary page. | 1 |
-| end | The specified number of pages will be used as the last page. | Number of content pages. |
+| Option | Param | Type | Default | Description | 
+| ------------- | ------------- | ------------- | ------------- | ------------- |
+| ✅ | absolute_path  | str | None | Specify the destination of the content by absolute path.  |  
+| ✅ | directory_name  | str | Title name of the content. | Rename the directory where the content will be saved.  | 
+| ✅ | start | int | 1 |  Specify this option if you want to download from an arbitrary page. | 
+| ✅ | end | int | Number of content pages. | The specified number of pages will be used as the last page. | 
 
 ### async_download
 **<span style="color: red; ">Note: This is in the prototype stage.</span>**  
@@ -72,12 +62,12 @@ Erocool.search(keyword)
 ```
 
 The following is a list of options that can be given to this method.  
-| Param | Description | Default | 
-| ------------- | ------------- | ------------- |
-| keyword  | Specify an array of keywords that are interesting to you.  | - | 
-| page  | If the search results span multiple pages, you can specify the page number you want to retrieve.  | 1 |
-| ja_only | Searches only for content in Japanese. | True |
-| populer | Search by popularity. By default, it is sorted by new arrivals. | False |
+| Option | Param | Type | Default | Description | 
+| ------------- | ------------- | ------------- | ------------- | ------------- | 
+| ⬜️ | keyword  | str | None | Specify an array of keywords that are interesting to you.  | 
+| ✅ | page  | int | 1 | If the search results span multiple pages, you can specify the page number you want to retrieve. |
+| ✅ | ja_only | bool | True | Searches only for content in Japanese. | 
+| ✅ | populer | bool | False | Search by popularity. By default, it is sorted by new arrivals. |
 
 The return value is the [Result](#Result) class.
 
@@ -99,11 +89,29 @@ You can select the period from the following
 The return value is the [Result](#Result) class.
 
 ## Class
+
+### Data
+This is a dataclass that stores the results of parsing a content page.
+| Property | Field | Type | Description | 
+| ------------- | ------------- | ------------- | ------------- | 
+| ✅ | ja_title | str | Japanese title. | 
+| ✅ | en_title | str | English title.  |  
+| ✅ | parodies | list[str] | Original content.  |  
+| ✅ | tags | list[str] | Tags set for the manga.  |  
+| ✅ | artists | list[str] | Author of the manga.  |  
+| ✅ | groups | list[str] | Team name if written by a team of several people.  |  
+| ✅ | lang | str | The language of manga.  |  
+| ✅ | total_pages | int | Total number of manga pages  |  
+| ✅ | upload_date | str | Submission date. Note: This is not necessarily the release date of the manga.  |  
+| ✅ | thumbnail | str | URL of the manga thumbnail.  |  
+| ✅ | url | str | The URL you set.  |  
 ### Result
-| Var | Type | Description | 
-| ------------- | ------------- | ------------- | 
-| pagination  | int | Number of pages of search results.  |
-| results  | list | Two-dimensional array. [{title,url},...]  |
+This dataclass is for storing scraped data of search results using the search function of the site.
+
+| Property　| Field | Type | Description | 
+| ------------- | ------------- | ------------- | ------------- | 
+| ✅ | pagination  | int | Number of pages of search results.  |
+| ✅ | results  | list | Two-dimensional array. [{title,url},...]  |
 
 ## Commandline
 You can use this API from the command line.
