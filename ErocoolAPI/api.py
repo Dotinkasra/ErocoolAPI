@@ -8,13 +8,13 @@ import re
 class ErocoolAPI:
 
     @classmethod
-    def set(self, url: str):
+    def set(self, url: str) -> object:
         site = self.get_site(self, url)
         instance = eval(site)()
         instance.set(url)
         return instance
 
-    def get_site(self, url: str):
+    def get_site(self, url: str) -> str:
         support_sites = {
             'Erocool' : r'https://ja\.erocool.*\.com/.*',
             'Caffe' : r'https://eromanga.cafe\.com/.*',
