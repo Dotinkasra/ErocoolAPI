@@ -1,3 +1,6 @@
+from ErocoolAPI.exceptions.exceptions import UnsupportedURLError
+from ErocoolAPI.schemas.data import Data
+
 import ssl
 import os
 import urllib.parse 
@@ -6,12 +9,11 @@ import urllib.error
 import re
 import random
 import asyncio
-import tqdm
+#import tqdm
 from pprint import pprint
 from typing import Pattern
 from bs4 import BeautifulSoup
 from abc import abstractmethod
-from ErocoolAPI.exceptions.exceptions import UnsupportedURLError
 #import traceback
 #import functools
 #from abc import ABCMeta, abstractmethod, abstractclassmethod
@@ -30,8 +32,9 @@ class Scraper:
         self.headers = {
             "User-Agent": self.user_agent,
         }
+        self._data = Data()
 
-        self._data = dict.fromkeys(
+        '''self._data = dict.fromkeys(
             [
                 'ja_title',
                 'en_title',
@@ -45,38 +48,37 @@ class Scraper:
                 'thumbnail', 
                 'url'
             ], '')
-        
 
     @property
-    def ja_title(self):
+    def ja_title(self) -> str:
         return self._data['ja_title']
 
     @property
-    def en_title(self):
+    def en_title(self) -> str:
         return self._data['en_title']
 
     @property
-    def upload_date(self):
+    def upload_date(self) -> str:
         return self._data['upload_date']
 
     @property
-    def artists(self):
+    def artists(self) -> str:
         return self._data['artists']
 
     @property
-    def lang(self):
+    def lang(self) -> str:
         return self._data['lang']
 
     @property
-    def groups(self):
+    def groups(self) -> list[str]:
         return self._data['groups']
 
     @property
-    def parodies(self):
+    def parodies(self) -> list[str]:
         return self._data['parodies']
 
     @property
-    def tag(self):
+    def tag(self) -> list[str]:
         return self._data['tag']
 
     @property
@@ -94,6 +96,9 @@ class Scraper:
     @property
     def image_list(self):
         return self._image_list
+    
+    '''
+        
     
     # bsによってパースされたHTMLを返却するメソッド
     # 引数：URL（文字列）
@@ -145,7 +150,7 @@ class Scraper:
     def set(self, url: str):
        pass
     
-    def info(self) -> dict:
+    def info(self) -> Data:
         """Get the information of the manga set in this instance.
 
         Returns:
@@ -172,7 +177,7 @@ class Scraper:
             dir_path = './'
 
         if dir_name == None:
-            dir_name = self.ja_title if not (self.ja_title == None or self.ja_title == '') else str(random.randrange(10**6, 10**7))
+            dir_name = self._data.ja_title if not (self._data.ja_title == None or self._data.ja_title == '') else str(random.randrange(10**6, 10**7))
 
         dir_path = os.path.join(dir_path, dir_name)
 
@@ -180,15 +185,15 @@ class Scraper:
             os.makedirs(dir_path, exist_ok = True)
 
         if end == None:
-            end = self.total_pages
+            end = self._data.total_pages
             
         # ページの画像表示divを取得
         #image_list = self.bs.select_one("#comicdetail > div:nth-child(6)").find_all('img')
-        if len(self._image_list) == 0:
+        if len(self._data.image_list) == 0:
             return 
 
         # 画像の数だけループする
-        for i, item in enumerate(self._image_list):
+        for i, item in enumerate(self._data.image_list):
             #if not item.has_attr('data-src'):
             #    continue
             #src_link = item.attrs['data-src']
@@ -231,7 +236,7 @@ class Scraper:
             dir_path = './'
 
         if dir_name == None or dir_name == '':
-            dir_name = self.ja_title if not (self.ja_title == None or self.ja_title == '') else str(random.randrange(10**6, 10**7))
+            dir_name = self._data.ja_title if not (self._data.ja_title == None or self._data.ja_title == '') else str(random.randrange(10**6, 10**7))
 
         self.dir_path = os.path.join(dir_path, dir_name)
 
@@ -239,17 +244,17 @@ class Scraper:
             os.makedirs(self.dir_path, exist_ok = True)
 
         if end == None:
-            end = self.total_pages
+            end = self._data.total_pages
             
         # ページの画像表示divを取得
         #image_list = self.bs.select_one("#comicdetail > div:nth-child(6)").find_all('img')
-        if len(self._image_list) == 0:
+        if len(self._data.image_list) == 0:
             return 
         
         do_download_img = []
 
         # 画像の数だけループする
-        for i, item in enumerate(self._image_list):
+        for i, item in enumerate(self._data.image_list):
             #if not item.has_attr('data-src'):
             #    continue
             #src_link = item.attrs['data-src']
