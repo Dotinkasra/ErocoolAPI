@@ -67,10 +67,10 @@ class Erocool(Scraper):
                 self._data.tags = [x.text for x in body]
 
             elif head == '作家':
-                self._data.artists = body[0].text
+                self._data.artists = [x.text for x in body]
 
             elif head == 'サークル':
-                self._data.groups = body[0].text
+                self._data.groups = [x.text for x in body]
 
             elif head == '言語':
                 self._data.lang = body[0].text
