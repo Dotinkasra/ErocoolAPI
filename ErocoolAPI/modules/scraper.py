@@ -109,6 +109,16 @@ class Scraper:
     def get_image_url(self, url: str) -> str:
         re.findall('http.://.*/(.*jpg|.*png)', url)[0]
 
+    def is_vaild_as_list(self, l: list) -> bool:
+        if l is None:
+            return False
+        if len(l) == 0:
+            return False
+        return True
+
+    def is_vaild_as_url(self, s: str) -> bool:
+        return bool(re.match(r'^(https?|ftp)(:\/\/[\w\/:%#\$&\?\(\)~\.=\+\-]+)', s))
+
     def download(self, absolute_path: str = None, directory_name: str = None, start: int = 1, end: int = None):
         """Download the manga set for this instance.
 
