@@ -4,3 +4,7 @@
 *.png
 __pycache__
 erocool_api
+test.py
+*.spec
+build
+dist

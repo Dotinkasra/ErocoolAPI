@@ -1,6 +1,8 @@
 from ErocoolAPI.modules.erocool import Erocool
 from ErocoolAPI.modules.caffe import Caffe
 from ErocoolAPI.modules.nyahentai import NyaHentai
+from ErocoolAPI.modules.ehentai import Ehentai
+from ErocoolAPI.modules.scraper import Scraper
 from ErocoolAPI.exceptions.exceptions import UnsupportedURLError
 
 import re
@@ -8,17 +10,18 @@ import re
 class ErocoolAPI:
 
     @classmethod
-    def set(self, url: str):
+    def set(self, url: str) -> Scraper:
         site = self.get_site(self, url)
         instance = eval(site)()
         instance.set(url)
         return instance
 
-    def get_site(self, url: str):
+    def get_site(self, url: str) -> str:
         support_sites = {
             'Erocool' : r'https://ja\.erocool.*\.com/.*',
             'Caffe' : r'https://eromanga.cafe\.com/.*',
-            'NyaHentai' : r'https://ja.nyahentai.*.com/.*'
+            'NyaHentai' : r'https://ja.nyahentai.*.(com|me)/.*',
+            'Ehentai' : r'https://e-hentai\.org.*'
         }
         try:
             for site in support_sites:

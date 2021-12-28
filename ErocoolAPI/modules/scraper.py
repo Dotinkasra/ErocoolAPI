@@ -1,3 +1,6 @@
+from ErocoolAPI.exceptions.exceptions import UnsupportedURLError
+from ErocoolAPI.schemas.data import Data
+
 import ssl
 import os
 import urllib.parse 
@@ -11,10 +14,6 @@ from pprint import pprint
 from typing import Pattern
 from bs4 import BeautifulSoup
 from abc import abstractmethod
-from ErocoolAPI.exceptions.exceptions import UnsupportedURLError
-#import traceback
-#import functools
-#from abc import ABCMeta, abstractmethod, abstractclassmethod
 
 class Scraper:
     ssl._create_default_https_context = ssl._create_unverified_context
@@ -30,70 +29,7 @@ class Scraper:
         self.headers = {
             "User-Agent": self.user_agent,
         }
-
-        self._data = dict.fromkeys(
-            [
-                'ja_title',
-                'en_title',
-                'parodies',
-                'tags',
-                'artists',
-                'groups', 
-                'lang', 
-                'total_pages', 
-                'upload_date', 
-                'thumbnail', 
-                'url'
-            ], '')
-        
-
-    @property
-    def ja_title(self):
-        return self._data['ja_title']
-
-    @property
-    def en_title(self):
-        return self._data['en_title']
-
-    @property
-    def upload_date(self):
-        return self._data['upload_date']
-
-    @property
-    def artists(self):
-        return self._data['artists']
-
-    @property
-    def lang(self):
-        return self._data['lang']
-
-    @property
-    def groups(self):
-        return self._data['groups']
-
-    @property
-    def parodies(self):
-        return self._data['parodies']
-
-    @property
-    def tag(self):
-        return self._data['tag']
-
-    @property
-    def total_pages(self):
-        return self._data['total_pages']
-    
-    @property
-    def thumbnail(self):
-        return self._data['thumbnail']
-    
-    @property
-    def url(self):
-        return self._data['url']
-
-    @property
-    def image_list(self):
-        return self._image_list
+        self._data = Data()
     
     # bsによってパースされたHTMLを返却するメソッド
     # 引数：URL（文字列）
@@ -145,13 +81,43 @@ class Scraper:
     def set(self, url: str):
        pass
     
-    def info(self) -> dict:
+    def info(self, display: bool = False) -> Data:
         """Get the information of the manga set in this instance.
 
+        Args:
+            display (bool, optional): If True, the information of the manga content set in the instance will be output to the standard output.
         Returns:
             dict[str]: Information about the manga.
         """
+        if display:
+            text = '【Infomation】\n【LANGUAGE】{lang}\n【URL】{url}\n【JA_TITLE】{ja_title}\n【EN_TITLE】{en_title}\n【UPLOAD_DATE】{upload_date}\n【ARTISTS】{artists}\n【GROUPS】{groups}\n【PARODIES】{parodies}\n【TAGS】{tags}\n【PAGE_COUNT】{total_pages}\n【THUMBNAIL】{thumbnail}\n'.format(
+                lang=self._data.lang,
+                url=self._data.url,
+                ja_title=self._data.ja_title,
+                en_title=self._data.en_title,
+                upload_date=self._data.upload_date,
+                artists=self._data.artists,
+                groups=','.join(self._data.tags),
+                parodies=','.join(self._data.parodies),
+                tags=','.join(self._data.tags),
+                total_pages=self._data.total_pages,
+                thumbnail=self._data.thumbnail
+            )
+            print(text)
         return self._data
+
+    def get_image_url(self, url: str) -> str:
+        re.findall('http.://.*/(.*jpg|.*png)', url)[0]
+
+    def is_vaild_as_list(self, l: list) -> bool:
+        if l is None:
+            return False
+        if len(l) == 0:
+            return False
+        return True
+
+    def is_vaild_as_url(self, s: str) -> bool:
+        return bool(re.match(r'^(https?|ftp)(:\/\/[\w\/:%#\$&\?\(\)~\.=\+\-]+)', s))
 
     def download(self, absolute_path: str = None, directory_name: str = None, start: int = 1, end: int = None):
         """Download the manga set for this instance.
@@ -172,7 +138,7 @@ class Scraper:
             dir_path = './'
 
         if dir_name == None:
-            dir_name = self.ja_title if not (self.ja_title == None or self.ja_title == '') else str(random.randrange(10**6, 10**7))
+            dir_name = self._data.ja_title if not (self._data.ja_title == None or self._data.ja_title == '') else str(random.randrange(10**6, 10**7))
 
         dir_path = os.path.join(dir_path, dir_name)
 
@@ -180,20 +146,20 @@ class Scraper:
             os.makedirs(dir_path, exist_ok = True)
 
         if end == None:
-            end = self.total_pages
+            end = self._data.total_pages
             
         # ページの画像表示divを取得
         #image_list = self.bs.select_one("#comicdetail > div:nth-child(6)").find_all('img')
-        if len(self._image_list) == 0:
+        if len(self._data.image_list) == 0:
             return 
 
         # 画像の数だけループする
-        for i, item in enumerate(self._image_list):
+        for i, item in enumerate(self._data.image_list):
             #if not item.has_attr('data-src'):
             #    continue
             #src_link = item.attrs['data-src']
             # 保存用のファイル名を生成する
-            file_name = "hcooldl_{:0>3}_".format(str(i + 1)) + re.findall('http.://.*/(.*jpg|.*png)', item)[0]
+            file_name = "hcooldl_{:0>3}_".format(str(i + 1)) + self.get_image_url(item)
             
             if i + 1 < start:
                 continue
@@ -231,7 +197,7 @@ class Scraper:
             dir_path = './'
 
         if dir_name == None or dir_name == '':
-            dir_name = self.ja_title if not (self.ja_title == None or self.ja_title == '') else str(random.randrange(10**6, 10**7))
+            dir_name = self._data.ja_title if not (self._data.ja_title == None or self._data.ja_title == '') else str(random.randrange(10**6, 10**7))
 
         self.dir_path = os.path.join(dir_path, dir_name)
 
@@ -239,17 +205,17 @@ class Scraper:
             os.makedirs(self.dir_path, exist_ok = True)
 
         if end == None:
-            end = self.total_pages
+            end = self._data.total_pages
             
         # ページの画像表示divを取得
         #image_list = self.bs.select_one("#comicdetail > div:nth-child(6)").find_all('img')
-        if len(self._image_list) == 0:
+        if len(self._data.image_list) == 0:
             return 
         
         do_download_img = []
 
         # 画像の数だけループする
-        for i, item in enumerate(self._image_list):
+        for i, item in enumerate(self._data.image_list):
             #if not item.has_attr('data-src'):
             #    continue
             #src_link = item.attrs['data-src']

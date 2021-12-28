@@ -31,19 +31,16 @@ class Erocool(Scraper):
         return Result(pagination, results)
 
     def __contents_page_analyze(self, url: str):
-        self._data['url'] = url
+        self._data.url = url
         
         #タイトル取得
-        ja_title = self.bs.select_one("#comicdetail > h1").text
-        en_title = self.bs.select_one("#comicdetail > h2").text
-
-        self._data['ja_title'] = ja_title
-        self._data['en_title'] = en_title
+        self._data.ja_title = self.bs.select_one("#comicdetail > h1").text
+        self._data.en_title = self.bs.select_one("#comicdetail > h2").text
 
         thumbnail = self.bs.find_all("img", {'class': 'ld_thumbnail'})
         thumbnail = thumbnail[0].attrs['src']
 
-        self._data['thumbnail'] = thumbnail
+        self._data.thumbnail = thumbnail
 
         ld_boxs_div = self.bs.select_one("div.listdetail_box.ldb2 > div.ld_boxs").contents
         ld_boxs_list = self.__remove_escape(ld_boxs_div)
@@ -63,12 +60,23 @@ class Erocool(Scraper):
             if head not in subtitle:
                 continue
             
-            if head == 'タグ':
-                self._data[subtitle[head]] = [x.text for x in body]
+            if head == '原作':
+                self._data.parodies = body[0].text
+
+            elif head == 'タグ':
+                self._data.tags = [x.text for x in body]
+
+            elif head == '作家':
+                self._data.artists = [x.text for x in body]
+
+            elif head == 'サークル':
+                self._data.groups = [x.text for x in body]
+
+            elif head == '言語':
+                self._data.lang = body[0].text
+
             elif head == '投稿日':
-                self._data[subtitle[head]] = body[0]
-            else:
-                self._data[subtitle[head]] = body[0].text
+                self._data.upload_date = body[0]
 
         src_list = []
         for item in self.bs.select_one("#comicdetail > div:nth-child(6)").find_all('img'):
@@ -76,8 +84,8 @@ class Erocool(Scraper):
                 continue
             src_list.append(item.attrs['data-src'])
         
-        self._data['total_pages'] = len(src_list)
-        self._image_list = src_list
+        self._data.total_pages = len(src_list)
+        self._data.image_list = src_list
 
     def __remove_escape(self, args: list) -> list:
         return [arg for arg in args if arg != '\n']
