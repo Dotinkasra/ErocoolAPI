@@ -23,6 +23,7 @@ class Dougle(Scraper):
             else:
                 continue
         self._data.total_pages = len(self._data.image_list)
+        self._data.thumbnail = self._data.image_list[0]
 
     def set(self, url: str):
         """Set the information of the comic to this instance.
