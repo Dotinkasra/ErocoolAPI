@@ -9,9 +9,13 @@ parser.add_argument('-s', '--start', type = int, default = 1, help = 'Specify th
 parser.add_argument('-e', '--end', type = int, help='Specify the last page number to finish downloading.')
 parser.add_argument('-o', '--output', help='Output directory')
 parser.add_argument('-n', '--name', help= 'Directory name')
+parser.add_argument('--info', action='store_true')
 
 args = parser.parse_args()
 
 site = ErocoolAPI.set(args.url)
-site.async_download(absolute_path = args.output, directory_name = args.name, start = args.start, end = args.end)
+if args.info:
+    site.info(display=True)
+else:
+    site.async_download(absolute_path = args.output, directory_name = args.name, start = args.start, end = args.end)
 sys.exit()
