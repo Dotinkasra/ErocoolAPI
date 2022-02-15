@@ -13,7 +13,7 @@ class ErocoolAPI:
     @classmethod
     def set(self, url: str) -> Scraper:
         site = self.get_site(self, url)
-        instance = eval(site)()
+        instance: Scraper = eval(site)()
         instance.set(url)
         return instance
 
@@ -35,3 +35,4 @@ class ErocoolAPI:
             raise UnsupportedURLError("非対応サイト")
         except Exception as e:
             print(e)
+    
