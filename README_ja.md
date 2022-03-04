@@ -1,5 +1,11 @@
 # Erocool Unofficial API
 
+# お知らせ
+⚠️こちらのリポジトリは更新されません
+以下へ移行しました。
+<a href="https://github.com/dotinkasra/ErocoolAPI_nim">
+  <img align="center" src="https://github-readme-stats.vercel.app/api/pin/?username=dotinkasra&repo=ErocoolAPI_nim" />
+</a>
 ## 使い方
 ### set
 インスタンスにコンテンツの情報を設定します。

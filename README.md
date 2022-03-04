@@ -1,5 +1,10 @@
 # Erocool Unofficial API
-
+# Notice
+This repository will not be updated.
+The following has been moved to the following
+<a href="https://github.com/dotinkasra/ErocoolAPI_nim">
+  <img align="center" src="https://github-readme-stats.vercel.app/api/pin/?username=dotinkasra&repo=ErocoolAPI_nim" />
+</a>
 ## How to use
 ・[日本語](https://github.com/Dotinkasra/ErocoolAPI/blob/main/README_ja.md)
 ### set
